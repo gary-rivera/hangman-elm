@@ -1,8 +1,10 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, text, div, h1, img)
+import Html exposing (..)
 import Html.Attributes exposing (src)
+import Html.Events exposing (..)
+
 
 
 ---- MODEL ----
@@ -17,17 +19,24 @@ init =
     ( {}, Cmd.none )
 
 
+phrase : String
+phrase =
+    "like and subscribe"
+
+
 
 ---- UPDATE ----
 
 
 type Msg
-    = NoOp
+    = Guess String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        Guess char ->
+            ( model, Cmd.none )
 
 
 
@@ -36,9 +45,36 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
+    let
+        phraseHtml =
+            phrase
+                |> String.split ""
+                |> List.map
+                    (\char ->
+                        if char == " " then
+                            " "
+
+                        else
+                            "_"
+                    )
+                |> List.map
+                    (\char ->
+                        span [] [ text char ]
+                    )
+                |> div []
+
+        buttonHtml =
+            "abcdefghijklmnopqrstuvwxyz"
+                |> String.split ""
+                |> List.map
+                    (\char ->
+                        button [ onClick <| Guess char ] [ text char ]
+                    )
+                |> div []
+    in
     div []
-        [ img [ src "/logo.svg" ] []
-        , h1 [] [ text "Your Elm App is working!" ]
+        [ phraseHtml
+        , buttonHtml
         ]
 
 

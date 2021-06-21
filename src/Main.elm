@@ -4,6 +4,7 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (src)
 import Html.Events exposing (..)
+import Set exposing (Set)
 
 
 
@@ -11,12 +12,15 @@ import Html.Events exposing (..)
 
 
 type alias Model =
-    {}
+    { guesses : Set String }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( { guesses = Set.empty
+      }
+    , Cmd.none
+    )
 
 
 phrase : String
@@ -36,7 +40,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Guess char ->
-            ( model, Cmd.none )
+            ( { model | guesses = Set.insert char model.guesses }, Cmd.none )
 
 
 
@@ -53,6 +57,11 @@ view model =
                     (\char ->
                         if char == " " then
                             " "
+                            -- if guess is successful, we show it
+
+                        else if Set.member char model.guesses then
+                            char
+                            -- otherwise display underscore for unguessed char
 
                         else
                             "_"

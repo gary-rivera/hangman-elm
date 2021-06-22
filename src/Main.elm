@@ -12,20 +12,18 @@ import Set exposing (Set)
 
 
 type alias Model =
-    { guesses : Set String }
+    { phrase : String
+    , guesses : Set String
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { guesses = Set.empty
+    ( { phrase = "like and subscribe"
+      , guesses = Set.empty
       }
     , Cmd.none
     )
-
-
-phrase : String
-phrase =
-    "like and subscribe"
 
 
 
@@ -55,7 +53,7 @@ view : Model -> Html Msg
 view model =
     let
         phraseHtml =
-            phrase
+            model.phrase
                 |> String.split ""
                 |> List.map
                     (\char ->
@@ -77,7 +75,7 @@ view model =
                 |> div []
 
         phraseSet =
-            phrase
+            model.phrase
                 |> String.split ""
                 |> Set.fromList
 

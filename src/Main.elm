@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (src)
+import Html.Attributes exposing (class, src)
 import Html.Events exposing (..)
 import Set exposing (Set)
 
@@ -34,6 +34,7 @@ phrase =
 
 type Msg
     = Guess String
+    | Restart
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -41,6 +42,9 @@ update msg model =
     case msg of
         Guess char ->
             ( { model | guesses = Set.insert char model.guesses }, Cmd.none )
+
+        Restart ->
+            ( { model | guesses = Set.empty }, Cmd.none )
 
 
 
@@ -97,6 +101,7 @@ view model =
         [ phraseHtml
         , buttonHtml
         , failuresHtml
+        , button [ class "restart", onClick Restart ] [ text "Restart" ]
         ]
 
 

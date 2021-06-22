@@ -43,3 +43,7 @@ button {
 button:active {
   background-color: rgba(0, 128, 128, 0.1);
 }
+
+.restart {
+  width: 5em;
+}

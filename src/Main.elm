@@ -72,6 +72,18 @@ view model =
                     )
                 |> div []
 
+        phraseSet =
+            phrase
+                |> String.split ""
+                |> Set.fromList
+
+        failuresHtml =
+            model.guesses
+                |> Set.toList
+                |> List.filter (\char -> not <| Set.member char phraseSet)
+                |> List.map (\char -> span [] [ text char ])
+                |> div []
+
         buttonHtml =
             "abcdefghijklmnopqrstuvwxyz"
                 |> String.split ""
@@ -84,6 +96,7 @@ view model =
     div []
         [ phraseHtml
         , buttonHtml
+        , failuresHtml
         ]
 
 
